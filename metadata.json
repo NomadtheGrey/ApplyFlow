@@ -1,0 +1,6 @@
+{
+  "name": "ApplyFlow",
+  "description": "A smart job application assistant that parses resumes and generates tailored autofill answers for job application forms.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
