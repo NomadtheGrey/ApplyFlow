@@ -102,7 +102,7 @@ export default function App() {
           
           <div className="p-4 bg-slate-900 rounded-2xl text-white shadow-lg overflow-hidden relative">
             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl -mr-12 -mt-12"></div>
-            <p className="text-[10px] uppercase font-bold opacity-50 mb-2 tracking-wider">AI Studio Project</p>
+            <p className="text-[10px] uppercase font-bold opacity-50 mb-2 tracking-wider">ApplyFlow Workspace</p>
             <p className="text-sm font-bold truncate">Ready to Assist</p>
             <div className="w-full bg-slate-800 h-1 rounded-full mt-3 overflow-hidden">
               <motion.div 
@@ -182,7 +182,7 @@ function DashboardView({ profile, onSwitchTab }: { profile: UserProfile | null, 
           <div className="flex items-center gap-2 text-xs font-bold text-blue-600 uppercase tracking-widest">
             <span className="px-2 py-0.5 bg-blue-100 rounded">LIVE SESSION</span>
           </div>
-          <h1 className="text-4xl font-bold text-slate-900 tracking-tight">Your Copilot Dashboard</h1>
+          <h1 className="text-4xl font-bold text-slate-900 tracking-tight">ApplyFlow Dashboard</h1>
           <p className="text-slate-500 font-medium">Smart job application management is active.</p>
         </div>
         <div className="flex items-center gap-4">

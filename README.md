@@ -1,20 +1,58 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ApplyFlow
 
-# Run and deploy your AI Studio app
+> **Smart job application assistant** that parses resumes and generates tailored autofill answers for job application forms.
 
-This contains everything you need to run your app locally.
+ApplyFlow streamlines the job application process by turning unstructured resume details into structured career profiles and generating tailored, high-converting responses for custom application questions.
 
-View your app in AI Studio: https://ai.studio/apps/583b4fcd-9067-4746-bc57-e518eed3fe14
+---
 
-## Run Locally
+## Features
 
-**Prerequisites:**  Node.js
+- **Resume Parsing Engine**: Transform plain text resumes or LinkedIn profiles into structured profiles with work experience, education, skills, and summary points.
+- **Form Filling Assistant**: Paste any target job description alongside open-ended application questions (e.g. *Why are you interested in this role?*, *Describe a challenging project*) to generate tailored, professional answers.
+- **Persistent Profile Store**: Save and manage your professional profile locally with instant access across sessions.
+- **Copy-to-Clipboard Flow**: Quick one-click copying for each synthesized question answer.
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Tech Stack
+
+- **Frontend**: [React 19](https://react.dev/), [TypeScript](https://www.typescriptlang.org/), [Vite](https://vitejs.dev/)
+- **Styling & UI**: [Tailwind CSS v4](https://tailwindcss.com/), [Motion](https://motion.dev/), [Lucide React](https://lucide.dev/)
+- **AI Integration**: [@google/genai](https://www.npmjs.com/package/@google/genai) with structured schema extraction
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- A valid Gemini API key set in your environment (`GEMINI_API_KEY`)
+
+### Installation
+
+```bash
+# Install dependencies
+npm install
+```
+
+### Development
+
+```bash
+# Start development server on port 3000
+npm run dev
+```
+
+### Build
+
+```bash
+# Build production bundle
+npm run build
+```
+
+---
+
+## License
+
+MIT

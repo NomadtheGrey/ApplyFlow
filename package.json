@@ -1,5 +1,6 @@
 {
-  "name": "react-example",
+  "name": "applyflow",
+  "description": "A smart job application assistant that parses resumes and generates tailored autofill answers for job application forms.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
