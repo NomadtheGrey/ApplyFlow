@@ -2,7 +2,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   FileText, 
   Search, 
-  Settings, 
   LayoutDashboard, 
   Briefcase, 
   User,
@@ -58,9 +57,9 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
-      {/* Sidebar */}
-      <nav className="w-72 border-r border-slate-200 bg-white flex flex-col p-6 shrink-0 relative z-10">
+    <div className="flex flex-col md:flex-row h-screen bg-slate-50 overflow-hidden font-sans">
+      {/* Sidebar — desktop */}
+      <nav className="hidden md:flex w-72 border-r border-slate-200 bg-white flex-col p-6 shrink-0 relative z-10">
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
             <div className="w-4 h-4 border-2 border-white rounded-sm"></div>
@@ -90,16 +89,7 @@ export default function App() {
           />
         </div>
 
-        <div className="pt-6 border-t border-slate-100 flex flex-col gap-6">
-          <div className="space-y-1">
-            <SidebarLink 
-              icon={<Settings className="w-5 h-5" />} 
-              label="Settings" 
-              isActive={false} 
-              onClick={() => {}} 
-            />
-          </div>
-          
+        <div className="pt-6 border-t border-slate-100">
           <div className="p-4 bg-slate-900 rounded-2xl text-white shadow-lg overflow-hidden relative">
             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl -mr-12 -mt-12"></div>
             <p className="text-[10px] uppercase font-bold opacity-50 mb-2 tracking-wider">ApplyFlow Workspace</p>
@@ -116,8 +106,35 @@ export default function App() {
         </div>
       </nav>
 
+      {/* Top bar — phones and small screens */}
+      <div className="md:hidden shrink-0 bg-white border-b border-slate-200 px-3 py-2 flex items-center gap-2 z-10">
+        <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
+          <div className="w-3.5 h-3.5 border-2 border-white rounded-sm"></div>
+        </div>
+        <div className="flex gap-1 ml-1 overflow-x-auto">
+          {(
+            [
+              { id: 'dashboard', label: 'Dashboard' },
+              { id: 'resume', label: 'Resume' },
+              { id: 'assistant', label: 'Assistant' },
+            ] as const
+          ).map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setActiveTab(t.id)}
+              className={cn(
+                'px-3 py-2 rounded-lg text-sm font-bold whitespace-nowrap',
+                activeTab === t.id ? 'bg-slate-100 text-slate-900' : 'text-slate-500'
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto relative bg-slate-50/50">
+      <main className="flex-1 min-h-0 overflow-y-auto relative bg-slate-50/50">
         <AnimatePresence mode="wait">
           {activeTab === 'dashboard' && (
             <DashboardView profile={state.profile} onSwitchTab={setActiveTab} />
@@ -128,10 +145,11 @@ export default function App() {
               isParsing={state.isParsing}
               onSubmit={handleResumeTextSubmit}
               onClear={() => setState({ profile: null, isParsing: false })}
+              onSwitchTab={setActiveTab}
             />
           )}
           {activeTab === 'assistant' && (
-            <AssistantView profile={state.profile} />
+            <AssistantView profile={state.profile} onSwitchTab={setActiveTab} />
           )}
         </AnimatePresence>
       </main>
@@ -175,7 +193,7 @@ function DashboardView({ profile, onSwitchTab }: { profile: UserProfile | null, 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="p-10 max-w-6xl mx-auto"
+      className="p-4 sm:p-6 md:p-10 max-w-6xl mx-auto"
     >
       <header className="mb-10 flex justify-between items-end">
         <div className="space-y-1">
@@ -288,7 +306,7 @@ function DashboardCard({ title, description, icon, actionLabel, onClick, isReady
   );
 }
 
-function ResumeView({ profile, isParsing, onSubmit, onClear }: any) {
+function ResumeView({ profile, isParsing, onSubmit, onClear, onSwitchTab }: any) {
   const [inputText, setInputText] = useState("");
 
   if (profile) {
@@ -296,7 +314,7 @@ function ResumeView({ profile, isParsing, onSubmit, onClear }: any) {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="p-10 max-w-6xl mx-auto"
+        className="p-4 sm:p-6 md:p-10 max-w-6xl mx-auto"
       >
         <div className="flex items-center justify-between mb-10">
           <div>
@@ -403,7 +421,7 @@ function ResumeView({ profile, isParsing, onSubmit, onClear }: any) {
                  Ready for Application
                </h4>
                <p className="text-xs text-slate-400 leading-relaxed mb-6">Your profile is fully parsed and optimized for smart autofill. Head over to the assistant to start applying.</p>
-               <button className="w-full py-3 bg-blue-600 rounded-xl font-bold text-sm shadow-lg shadow-blue-900/40">Open Form Assistant</button>
+               <button onClick={() => onSwitchTab('assistant')} className="w-full py-3 bg-blue-600 rounded-xl font-bold text-sm shadow-lg shadow-blue-900/40">Open Form Assistant</button>
             </div>
           </div>
         </div>
@@ -415,7 +433,7 @@ function ResumeView({ profile, isParsing, onSubmit, onClear }: any) {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="p-10 max-w-4xl mx-auto"
+      className="p-4 sm:p-6 md:p-10 max-w-4xl mx-auto"
     >
       <div className="text-center mb-12 py-10">
         <div className="w-20 h-20 bg-blue-600 text-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-blue-200">
@@ -460,15 +478,6 @@ function ResumeView({ profile, isParsing, onSubmit, onClear }: any) {
               </>
             )}
           </button>
-          
-          <div className="flex items-center gap-4 mt-4">
-             <div className="flex -space-x-2">
-                {[1,2,3].map(i => <div key={i} className="w-6 h-6 rounded-full border-2 border-white bg-slate-200" />)}
-             </div>
-             <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold">
-               Trusted by 2,000+ early adopters
-             </p>
-          </div>
         </div>
       </div>
     </motion.div>
@@ -486,7 +495,7 @@ function FeatureIcon({ label, icon }: { label: string, icon: ReactNode }) {
   );
 }
 
-function AssistantView({ profile }: { profile: UserProfile | null }) {
+function AssistantView({ profile, onSwitchTab }: { profile: UserProfile | null, onSwitchTab: (tab: 'dashboard' | 'resume' | 'assistant') => void }) {
   const [jobDescription, setJobDescription] = useState("");
   const [questionsText, setQuestionsText] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -516,7 +525,7 @@ function AssistantView({ profile }: { profile: UserProfile | null }) {
           </div>
           <h2 className="text-2xl font-extrabold text-slate-900 mb-2 tracking-tight">Profile Required</h2>
           <p className="text-slate-500 mb-8 text-sm font-medium">You must establish your source profile before using the smart assistant features.</p>
-          <button className="text-blue-600 font-bold hover:underline py-2 px-6 bg-blue-50 rounded-xl transition-all">Go to Profile Settings →</button>
+          <button onClick={() => onSwitchTab('resume')} className="text-blue-600 font-bold hover:underline py-2 px-6 bg-blue-50 rounded-xl transition-all">Go to Profile Settings →</button>
         </div>
       </div>
     );
@@ -526,7 +535,7 @@ function AssistantView({ profile }: { profile: UserProfile | null }) {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="p-10 max-w-7xl mx-auto h-full flex flex-col"
+      className="p-4 sm:p-6 md:p-10 max-w-7xl mx-auto h-full flex flex-col"
     >
       <header className="mb-10 flex justify-between items-end shrink-0">
         <div className="space-y-1">
@@ -670,8 +679,8 @@ function AssistantView({ profile }: { profile: UserProfile | null }) {
                     <CheckCircle2 className="w-4 h-4 text-blue-500" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-white uppercase tracking-tight">AI Confidence: High</p>
-                    <p className="text-[9px] text-slate-500 font-bold uppercase">Synthesized from 12 match points</p>
+                    <p className="text-[10px] font-bold text-white uppercase tracking-tight">Drafted from your profile</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase">Read it over before you paste</p>
                   </div>
                </div>
             </div>
