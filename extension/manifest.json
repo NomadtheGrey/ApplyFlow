@@ -1,0 +1,1 @@
+{"action":{"default_popup":"extension/popup.html","default_title":"ApplyFlow"},"background":{"service_worker":"background.js"},"description":"AI-powered job application autofill. Reads the page's fields, asks Gemini what goes where, fills them. Never submits.","manifest_version":3,"name":"ApplyFlow","permissions":["storage","activeTab","scripting"],"version":"0.1.0"}
